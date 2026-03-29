@@ -10,7 +10,7 @@ export default function Home() {
           <h1 className="text-6xl md:text-7xl font-bold tracking-tighter mb-6">
             欢迎来到<br />
             <span className="bg-gradient-to-r from-white to-blue-400 bg-clip-text text-transparent">
-              Zephyr'Blog
+              Bukawa'Blog
             </span>
           </h1>
           

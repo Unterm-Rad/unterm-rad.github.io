@@ -5,7 +5,7 @@ export default function About() {
         <h1 className="text-5xl font-bold mb-6">关于我</h1>
         
         <p className="text-xl text-zinc-400 mb-8">
-          你好，我是 Zephyr。
+          你好，我是蕪川。
         </p>
         
         <p className="text-zinc-300 leading-relaxed">

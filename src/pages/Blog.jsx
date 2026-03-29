@@ -12,7 +12,8 @@ export default function Blog() {
         // 从 pages 目录正确读取 src/posts/*.md 文件
         const modules = import.meta.glob('../posts/*.md', {
           eager: true,
-          as: 'raw'
+          query: '?raw',    // 修改這裡：從 as 改為 query
+          import: 'default' // 新增這一行
         });
 
         const loadedPosts = Object.keys(modules).map((filePath) => {

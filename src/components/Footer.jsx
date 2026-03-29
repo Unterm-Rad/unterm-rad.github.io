@@ -14,7 +14,7 @@ export default function Footer() {
           </a>
 
           <p className="text-zinc-500 text-sm">
-            © 2026 Zephyr Yang
+            © 2026 Bukawa Kataoka
           </p>
         </div>
       </div>

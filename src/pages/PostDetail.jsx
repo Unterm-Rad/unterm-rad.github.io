@@ -14,7 +14,8 @@ export default function PostDetail() {
       try {
         // 1. 获取所有文章模块
         const modules = import.meta.glob('../posts/*.md', { 
-          as: 'raw', 
+          query: '?raw',    // 修改這裡
+          import: 'default', // 新增這一行
           eager: false 
         });
 

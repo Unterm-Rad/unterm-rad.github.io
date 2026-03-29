@@ -8,7 +8,11 @@ export default function TagResults() {
 
   useEffect(() => {
     const loadFilteredPosts = async () => {
-      const modules = import.meta.glob('../posts/*.md', { as: 'raw', eager: true });
+    const modules = import.meta.glob('../posts/*.md', { 
+      query: '?raw',    // 修改這裡
+      import: 'default', // 新增這一行
+      eager: true 
+    });
       const posts = Object.keys(modules).map(path => {
         const slug = path.split('/').pop().replace('.md', '');
         const rawContent = modules[path];

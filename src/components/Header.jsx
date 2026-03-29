@@ -15,12 +15,12 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md">
       <div className="max-w-5xl mx-auto px-6 py-5 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3 group">
-          <div className="w-9 h-9 bg-blue-600 rounded-2xl flex items-center justify-center text-white font-bold text-2xl transition-transform group-hover:rotate-12">
-            風
+          <div className="w-9 h-9 bg-yellow-600 rounded-2xl flex items-center justify-center text-white font-bold text-2xl transition-transform group-hover:rotate-12">
+            蕪
           </div>
           <div>
-            <span className="text-2xl font-semibold tracking-tight text-blue-100">Zephyr</span>
-            <p className="text-[10px] text-blue-400 -mt-1 tracking-widest">風之子</p>
+            <span className="text-2xl font-semibold tracking-tight text-blue-100">Bukawa</span>
+            <p className="text-[10px] text-blue-400 -mt-1 tracking-widest">蕪川</p>
           </div>
         </Link>
 

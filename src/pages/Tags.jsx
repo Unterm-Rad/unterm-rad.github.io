@@ -7,7 +7,12 @@ export default function Tags() {
 
   useEffect(() => {
     const fetchTags = async () => {
-      const modules = import.meta.glob('../posts/*.md', { as: 'raw', eager: true });
+      // 修改這裡：將 as: 'raw' 改為 query: '?raw' 並增加 import: 'default'
+      const modules = import.meta.glob('../posts/*.md', { 
+        query: '?raw', 
+        import: 'default',
+        eager: true 
+      });
       const stats = {};
 
       Object.values(modules).forEach((rawContent) => {
