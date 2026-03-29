@@ -5,3 +5,61 @@
     @apply bg-zinc-950 text-zinc-100 font-sans;
   }
 }
+
+/* 适配深色主题的 Markdown 样式 */
+.markdown-body {
+    background-color: transparent !important; /* 强制背景透明，显示你网页的黑色背景 */
+    color: #e6edf3 !important;               /* 强制文字为浅灰色/白色 */
+}
+
+/* 修正表格边框和分割线在深色下的颜色 */
+.markdown-body table tr,
+.markdown-body table th,
+.markdown-body table td {
+    border-color: #30363d !important;
+}
+
+.markdown-body blockquote {
+    color: #8b949e !important;
+    border-left-color: #30363d !important;
+}
+
+.markdown-body h1, .markdown-body h2 {
+    border-bottom-color: #30363d !important;
+}
+/* 针对表格的深度修复 */
+.markdown-body table {
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    overflow: auto;
+    border-collapse: collapse;
+    background-color: transparent !important;
+}
+
+/* 强制显示边框颜色 */
+.markdown-body table th,
+.markdown-body table td {
+    padding: 8px 13px;
+    border: 1px solid #30363d !important; /* GitHub 暗黑模式常用的边框色 */
+    background-color: transparent !important;
+}
+
+/* 修正表头背景，防止文字太挤 */
+.markdown-body table th {
+    background-color: #161b22 !important; /* 深灰色背景区分表头 */
+    font-weight: 600;
+}
+
+/* 移除隔行变色（或者改为适合深色的颜色） */
+.markdown-body table tr {
+    background-color: transparent !important;
+    border-top: 1px solid #30363d !important;
+}
+
+.markdown-body table tr:nth-child(2n) {
+    background-color: #0d1117 !important; /* 极深灰，稍微有一点点区分即可 */
+}
+
+/* 特殊样式定义 */
+.markdown-body .hl-red { color: #ff4757; font-weight: 600; }

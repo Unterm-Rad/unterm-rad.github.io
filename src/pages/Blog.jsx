@@ -51,6 +51,7 @@ export default function Blog() {
           if (!frontmatter.excerpt) {
             const bodyText = rawContent
               .replace(/---[\s\S]*?---/, '') // 移除 frontmatter
+              .replace(/<[^>]*>/g, '')         // 2. 去掉 HTML 标签 (如 <p>, <span>)
               .replace(/[#*`~>]/g, '')       // 移除 #, *, `, ~, > 等 MD 符号
               .replace(/!\[.*?\]\(.*?\)/g, '') // 移除图片描述
               .replace(/\[.*?\]\(.*?\)/g, '') // 移除链接描述

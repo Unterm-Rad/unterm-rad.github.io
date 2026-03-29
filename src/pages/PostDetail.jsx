@@ -2,7 +2,9 @@ import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import 'github-markdown-css/github-markdown.css';
 import { ArrowLeft, Calendar, Tag } from 'lucide-react';
+import rehypeRaw from 'rehype-raw';
 
 export default function PostDetail() {
   const { slug } = useParams();
@@ -112,8 +114,8 @@ export default function PostDetail() {
       </header>
 
       {/* 渲染正文 */}
-      <div className="prose prose-invert prose-zinc max-w-none">
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+      <div className="prose prose-invert prose-zinc max-w-none markdown-body">
+        <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
           {post.content}
         </ReactMarkdown>
       </div>
