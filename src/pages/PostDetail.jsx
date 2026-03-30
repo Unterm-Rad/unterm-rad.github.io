@@ -3,37 +3,57 @@ import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import 'github-markdown-css/github-markdown.css';
-import { ArrowLeft, Calendar, Tag } from 'lucide-react';
+import { ArrowLeft, Calendar, Tag, ArrowUp } from 'lucide-react'; // 1. 引入 ArrowUp 图标
 import rehypeRaw from 'rehype-raw';
 
 export default function PostDetail() {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
+  
+  // 2. 新增：控制按钮显示/隐藏的状态
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    // 3. 监听滚动事件
+    const handleScroll = () => {
+      if (window.scrollY > 400) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // 4. 新增：回到顶部的平滑滚动函数
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
 
   useEffect(() => {
     const loadPost = async () => {
       try {
-        // 1. 获取所有文章模块
         const modules = import.meta.glob('../posts/*.md', { 
-          query: '?raw',    // 修改這裡
-          import: 'default', // 新增這一行
+          query: '?raw',
+          import: 'default',
           eager: false 
         });
 
-        // 2. 匹配当前路径
         const filePath = `../posts/${slug}.md`;
         
         if (!modules[filePath]) {
-          console.error('未找到文件:', filePath);
           setPost({ error: true });
           return;
         }
 
-        // 3. 读取原始内容
         const rawContent = await modules[filePath]();
         
-        // 4. 使用正则解析 Frontmatter (与 Blog.jsx 逻辑一致)
         const frontmatterMatch = rawContent.match(/---\s*([\s\S]*?)\s*---/);
         let frontmatter = { title: slug, date: '', tags: [] };
         let content = rawContent;
@@ -57,7 +77,6 @@ export default function PostDetail() {
 
         setPost({ frontmatter, content });
       } catch (error) {
-        console.error('解析文章失败:', error);
         setPost({ error: true });
       } finally {
         setLoading(false);
@@ -78,7 +97,7 @@ export default function PostDetail() {
   }
 
   return (
-    <article className="max-w-3xl mx-auto px-6 py-16">
+    <article className="max-w-3xl mx-auto px-6 py-16 relative">
       <Link to="/blog" className="inline-flex items-center gap-2 text-zinc-400 hover:text-blue-400 mb-10">
         <ArrowLeft size={18} /> 返回博客列表
       </Link>
@@ -93,7 +112,6 @@ export default function PostDetail() {
             </div>
           )}
           
-          {/* 新增：渲染可点击的标签列表 */}
           {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
             <div className="flex items-center gap-2">
               <Tag size={16} />
@@ -113,12 +131,22 @@ export default function PostDetail() {
         </div>
       </header>
 
-      {/* 渲染正文 */}
       <div className="prose prose-invert prose-zinc max-w-none markdown-body">
         <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
           {post.content}
         </ReactMarkdown>
       </div>
+
+      {/* 5. 新增：回到顶部按钮组件 */}
+      <button
+        onClick={scrollToTop}
+        className={`fixed bottom-10 right-10 p-3 bg-zinc-900/80 backdrop-blur-md border border-zinc-800 text-blue-400 rounded-full shadow-2xl transition-all duration-500 hover:scale-110 hover:border-blue-500/50 hover:text-blue-300 z-50 ${
+          showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
+        }`}
+        aria-label="Back to Top"
+      >
+        <ArrowUp size={24} />
+      </button>
     </article>
   );
 }

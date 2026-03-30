@@ -12,12 +12,12 @@ export default function Blog() {
         // 从 pages 目录正确读取 src/posts/*.md 文件
         const modules = import.meta.glob('../posts/*.md', {
           eager: true,
-          query: '?raw',    // 修改這裡：從 as 改為 query
-          import: 'default' // 新增這一行
+          query: '?raw',    
+          import: 'default' 
         });
 
         const loadedPosts = Object.keys(modules).map((filePath) => {
-          const slug = filePath.split('/').pop().replace('.md', ''); // 获取文件名作为 slug
+          const slug = filePath.split('/').pop().replace('.md', ''); 
           const rawContent = modules[filePath];
 
           // 解析 frontmatter
@@ -43,23 +43,13 @@ export default function Blog() {
               tags: tagsMatch 
                 ? tagsMatch[1].split(',').map(t => t.trim().replace(/['"]/g, '')) 
                 : [],
+              // 这里直接获取手动定义的概括，如果没有定义则为空
               excerpt: excerptMatch ? excerptMatch[1].trim() : '',
             };
           }
 
-          // 自动提取并清洗摘要
-          if (!frontmatter.excerpt) {
-            const bodyText = rawContent
-              .replace(/---[\s\S]*?---/, '') // 移除 frontmatter
-              .replace(/<[^>]*>/g, '')         // 2. 去掉 HTML 标签 (如 <p>, <span>)
-              .replace(/[#*`~>]/g, '')       // 移除 #, *, `, ~, > 等 MD 符号
-              .replace(/!\[.*?\]\(.*?\)/g, '') // 移除图片描述
-              .replace(/\[.*?\]\(.*?\)/g, '') // 移除链接描述
-              .trim()
-              .replace(/\n+/g, ' ');
-            
-            frontmatter.excerpt = bodyText.substring(0, 120) + '...';
-          }
+          // 已删除：自动提取并清洗摘要的逻辑块
+          // 这样预览区域就只会显示你在 frontmatter 里写的文字了
 
           return {
             slug,
@@ -117,6 +107,7 @@ export default function Blog() {
                   <h2 className="text-2xl font-semibold mb-4 group-hover:text-blue-400 transition-colors">
                     {post.title}
                   </h2>
+                  {/* 如果 excerpt 为空，此处将不渲染内容 */}
                   <p className="text-zinc-400 leading-relaxed line-clamp-3">
                     {post.excerpt}
                   </p>
@@ -138,7 +129,7 @@ export default function Blog() {
                     <Link
                       key={index}
                       to={`/tags/${tag}`}
-                      onClick={(e) => e.stopPropagation()} // 关键：防止点击标签时同时也触发了跳转到文章详情页
+                      onClick={(e) => e.stopPropagation()} 
                       className="text-xs bg-zinc-800 text-blue-300 px-4 py-1.5 rounded-full hover:bg-blue-500/20 transition-colors"
                     >
                       #{tag}
